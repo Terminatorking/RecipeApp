@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import ghazimoradi.soheil.recipeapp.R.string.checkConnection
 import ghazimoradi.soheil.recipeapp.utils.showSnackBar
-import ghazimoradi.soheil.viewmodels.CheckInternetViewModel
+import ghazimoradi.soheil.recipeapp.viewmodels.CheckInternetViewModel
 import kotlinx.coroutines.launch
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {

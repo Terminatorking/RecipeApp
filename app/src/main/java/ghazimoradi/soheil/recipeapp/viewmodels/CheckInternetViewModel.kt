@@ -1,4 +1,4 @@
-package ghazimoradi.soheil.viewmodels
+package ghazimoradi.soheil.recipeapp.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
