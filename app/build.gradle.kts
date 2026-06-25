@@ -44,6 +44,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
 
+    //Paging
+    implementation(libs.androidx.paging.runtime)
+
     //KotlinMetaData
     ksp(libs.kotlinMetadata)
 
