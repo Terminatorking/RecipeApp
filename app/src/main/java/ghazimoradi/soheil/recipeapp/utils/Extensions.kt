@@ -1,8 +1,71 @@
 package ghazimoradi.soheil.recipeapp.utils
 
+import android.content.res.ColorStateList
 import android.view.View
-import com.google.android.material.snackbar.Snackbar
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat.getColor
+import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar.make
+import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
+import ghazimoradi.soheil.recipeapp.utils.MyApp.Companion.myApplicationContext
 
-fun View.showSnackBar(message: String, duration: Int = Snackbar.LENGTH_SHORT) {
-    Snackbar.make(this, message, duration).show()
+fun View.showSnackBar(message: String, duration: Int = LENGTH_SHORT) =
+    make(this, message, duration).show()
+
+fun TextView.setDynamicallyColor(color: Int) {
+    //Start - Left = 0 || Top = 1 || End - Right = 2 || Bottom = 3
+    this.compoundDrawables[1].setTint(getColorResource(color))
+    this.setTextColor(getColorResource(color))
 }
+
+fun RecyclerView.setupRecyclerview(
+    myLayoutManager: RecyclerView.LayoutManager,
+    myAdapter: RecyclerView.Adapter<*>,
+) {
+    this.apply {
+        layoutManager = myLayoutManager
+        setHasFixedSize(true)
+        adapter = myAdapter
+    }
+}
+
+fun Int.minToHour(): String {
+    val time: String
+    val hours: Int = this / 60
+    val minutes: Int = this % 60
+    time = if (hours > 0) "${hours}h:${minutes}min" else "${minutes}min"
+    return time
+}
+
+fun <T> LiveData<T>.onceObserve(owner: LifecycleOwner, observe: Observer<T>) {
+    observe(
+        owner,
+        object : Observer<T> {
+            override fun onChanged(value: T) {
+                removeObserver(this)
+                observe.onChanged(value)
+            }
+        }
+    )
+}
+
+fun View.isVisible(isShownLoading: Boolean, container: View) {
+    if (isShownLoading) {
+        this.isVisible = true
+        container.isVisible = false
+    } else {
+        this.isVisible = false
+        container.isVisible = true
+    }
+}
+
+fun ImageView.setTint(color: Int) {
+    imageTintList = ColorStateList.valueOf(getColorResource(color))
+}
+
+fun getColorResource(color: Int) = getColor(myApplicationContext, color)
