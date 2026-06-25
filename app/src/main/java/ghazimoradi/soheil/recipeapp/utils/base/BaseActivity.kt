@@ -9,7 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors.fromApplication
 import ghazimoradi.soheil.recipeapp.R.id.navHost
-import ghazimoradi.soheil.recipeapp.di.ViewPumpEntryPoint
+import ghazimoradi.soheil.recipeapp.di.font.ViewPumpEntryPoint
 import io.github.inflationx.viewpump.ViewPumpContextWrapper.Companion.wrap
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package ghazimoradi.soheil.recipeapp.di
+package ghazimoradi.soheil.recipeapp.di.font
 
 import dagger.Module
 import dagger.Provides
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object FontModule {
 
     @Provides
     @Singleton

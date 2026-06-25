@@ -1,4 +1,4 @@
-package ghazimoradi.soheil.recipeapp.di
+package ghazimoradi.soheil.recipeapp.di.font
 
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
