@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import coil3.load
+import dagger.hilt.android.AndroidEntryPoint
 import ghazimoradi.soheil.recipeapp.R.drawable.register_logo
 import ghazimoradi.soheil.recipeapp.databinding.FragmentRegisterBinding
 import ghazimoradi.soheil.recipeapp.utils.base.BaseFragment
 
+@AndroidEntryPoint
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
     override val bindingInflater: (inflater: LayoutInflater) -> FragmentRegisterBinding
