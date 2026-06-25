@@ -1,18 +1,24 @@
 package ghazimoradi.soheil.recipeapp.utils
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar.make
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
+import com.google.android.material.snackbar.Snackbar.make
 import ghazimoradi.soheil.recipeapp.utils.MyApp.Companion.myApplicationContext
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(REGISTER_USER_INFO)
 
 fun View.showSnackBar(message: String, duration: Int = LENGTH_SHORT) =
     make(this, message, duration).show()
