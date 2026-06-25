@@ -22,7 +22,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar.make
 import ghazimoradi.soheil.recipeapp.utils.MyApp.Companion.myApplicationContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(REGISTER_USER_INFO)
 
@@ -93,3 +95,5 @@ fun Fragment.doWorkOnLifecycleScope(
         }
     }
 }
+
+suspend fun Int.delay() = delay(this.milliseconds)
