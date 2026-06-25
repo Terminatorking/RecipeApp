@@ -101,5 +101,7 @@ dependencies {
     implementation(libs.shimmerrecyclerview)
     implementation(libs.dynamicsizes)
     implementation(libs.lottie)
-    implementation(libs.readmore.textview)
+    implementation(libs.readmore.textview) {
+        exclude(group = "org.jetbrains.kotlin", module = "kotlin-android-extensions-runtime")
+    }
 }
