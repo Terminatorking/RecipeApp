@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ghazimoradi.soheil.recipeapp.data.models.register.BodyRegister
 import javax.inject.Singleton
 import ghazimoradi.soheil.recipeapp.utils.network.CheckInternetConnection
 
@@ -24,4 +25,7 @@ object CheckConnection {
     fun provideCheckInternet(
         connectivityManager: ConnectivityManager
     ): CheckInternetConnection = CheckInternetConnection(connectivityManager)
+
+    @Provides
+    fun bodyRegister() = BodyRegister()
 }

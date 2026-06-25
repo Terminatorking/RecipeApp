@@ -2,6 +2,7 @@ package ghazimoradi.soheil.recipeapp.utils
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.util.Patterns
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,13 +11,18 @@ import androidx.core.view.isVisible
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar.make
 import ghazimoradi.soheil.recipeapp.utils.MyApp.Companion.myApplicationContext
+import kotlinx.coroutines.launch
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(REGISTER_USER_INFO)
 
@@ -75,3 +81,15 @@ fun ImageView.setTint(color: Int) {
 }
 
 fun getColorResource(color: Int) = getColor(myApplicationContext, color)
+
+fun validateEmail(email: String) = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+fun Fragment.doWorkOnLifecycleScope(
+    work: suspend () -> Unit
+) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.CREATED) {
+            work()
+        }
+    }
+}

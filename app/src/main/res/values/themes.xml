@@ -2,7 +2,7 @@
 
     <style name="Theme.RecipeApp" parent="Base.Theme.RecipeApp" />
 
-    <style name="Base.Theme.RecipeApp" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.RecipeApp" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/jacarta</item>
         <item name="colorPrimaryVariant">@color/dark_gunmetal</item>

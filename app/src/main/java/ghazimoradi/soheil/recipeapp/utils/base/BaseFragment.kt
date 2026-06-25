@@ -8,8 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
-import ghazimoradi.soheil.recipeapp.R.string.checkConnection
-import ghazimoradi.soheil.recipeapp.utils.showSnackBar
 import ghazimoradi.soheil.recipeapp.viewmodels.CheckInternetViewModel
 import kotlinx.coroutines.launch
 
@@ -38,9 +36,6 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         lifecycleScope.launch {
             checkInternetViewModel.isNetworkAvailable.collect {
                 isNetworkAvailable = it
-                if (!it) {
-                    binding.root.showSnackBar(getString(checkConnection))
-                }
             }
         }
     }
