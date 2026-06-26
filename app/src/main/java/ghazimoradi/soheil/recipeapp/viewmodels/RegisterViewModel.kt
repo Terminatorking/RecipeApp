@@ -2,7 +2,6 @@ package ghazimoradi.soheil.recipeapp.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ghazimoradi.soheil.recipeapp.data.models.register.BodyRegister
@@ -20,7 +19,7 @@ class RegisterViewModel @Inject constructor(
 
     val registerData = MutableLiveData<NetworkRequest<ResponseRegister>>()
 
-    val readData = repository.readRegisterData.asLiveData()
+    val readData = repository.readRegisterData
 
     fun callRegisterApi(apiKey: String, body: BodyRegister) {
         viewModelScope.launch {

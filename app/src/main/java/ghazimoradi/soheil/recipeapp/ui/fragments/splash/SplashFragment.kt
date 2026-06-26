@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import coil3.load
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +39,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
             doWorkOnLifecycleScope {
                 3500.delay()
-                viewModel.readData.observe(viewLifecycleOwner) {
+                viewModel.readData.asLiveData().observe(viewLifecycleOwner) {
                     findNavController().popBackStack(splashFragment, true)
                     findNavController().navigate(
                         if (it.username.isNotEmpty())
