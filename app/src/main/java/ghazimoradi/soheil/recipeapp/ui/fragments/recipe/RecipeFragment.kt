@@ -13,6 +13,7 @@ import ghazimoradi.soheil.recipeapp.R.string.hello
 import ghazimoradi.soheil.recipeapp.data.models.recipe.ResponseRecipes.Result
 import ghazimoradi.soheil.recipeapp.databinding.FragmentRecipeBinding
 import ghazimoradi.soheil.recipeapp.ui.adapters.PopularAdapter
+import ghazimoradi.soheil.recipeapp.ui.adapters.RecentAdapter
 import ghazimoradi.soheil.recipeapp.utils.DELAY_TIME
 import ghazimoradi.soheil.recipeapp.utils.REPEAT_TIME
 import ghazimoradi.soheil.recipeapp.utils.base.BaseFragment
@@ -42,16 +43,29 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
     @Inject
     lateinit var popularAdapter: PopularAdapter
 
+    @Inject
+    lateinit var recentAdapter: RecentAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         showUsername()
+
         callPopularData()
+        callRecentData()
+
         loadPopularData()
+        loadRecentData()
     }
 
     private fun callPopularData() {
         initPopularRecycler()
         recipeViewModel.callPopularApi(recipeViewModel.popularQueries())
+    }
+
+    private fun callRecentData() {
+        initRecentRecycler()
+        recipeViewModel.callRecentApi(recipeViewModel.recentQueries())
     }
 
     fun showUsername() {
@@ -87,6 +101,32 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
                     is Error -> {
                         setupLoading(false, popularList)
                         binding.root.showSnackBar(response.message.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun loadRecentData() {
+        binding.apply {
+            recipeViewModel.recentData.observe(viewLifecycleOwner) { response ->
+                when (response) {
+                    is Loading -> {
+                        setupLoading(true, recipesList)
+                    }
+
+                    is Success -> {
+                        setupLoading(false, recipesList)
+                        response.data?.results?.let { results ->
+                            if (results.isNotEmpty()) {
+                                recentAdapter.setData(results)
+                            }
+                        }
+                    }
+
+                    is Error -> {
+                        setupLoading(false, recipesList)
+                        root.showSnackBar(response.message.toString())
                     }
                 }
             }
@@ -133,6 +173,17 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
         snapHelper.attachToRecyclerView(binding.popularList)
 
         popularAdapter.setOnItemClickListener {
+            gotoDetailPage(it)
+        }
+    }
+
+    private fun initRecentRecycler() {
+        binding.recipesList.setupRecyclerview(
+            LinearLayoutManager(requireContext()),
+            recentAdapter
+        )
+
+        recentAdapter.setOnItemClickListener {
             gotoDetailPage(it)
         }
     }

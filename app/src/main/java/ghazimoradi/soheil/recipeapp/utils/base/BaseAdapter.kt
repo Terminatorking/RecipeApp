@@ -1,7 +1,10 @@
 package ghazimoradi.soheil.recipeapp.utils.base
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils.loadAnimation
+import androidx.annotation.AnimRes
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -14,10 +17,14 @@ abstract class BaseAdapter<B : ViewBinding, M> : Adapter<BaseAdapter<B, M>.BaseV
     private var _binding: B? = null
     protected val binding: B get() = requireNotNull(_binding)
 
+    private var _context: Context? = null
+    protected val context: Context get() = requireNotNull(_context)
+
     private var items: List<M> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        _binding = bindingInflater.invoke(LayoutInflater.from(parent.context), parent, false)
+        _context = parent.context
+        _binding = bindingInflater.invoke(LayoutInflater.from(context), parent, false)
         return BaseViewHolder(binding)
     }
 
@@ -44,5 +51,13 @@ abstract class BaseAdapter<B : ViewBinding, M> : Adapter<BaseAdapter<B, M>.BaseV
         val result = calculateDiff(baseDiffUtils)
         items = data
         result.dispatchUpdatesTo(this)
+    }
+
+    fun initAnimation(@AnimRes anim: Int) {
+        binding.root.animation = loadAnimation(context, anim)
+    }
+
+    fun clearAnimation() {
+        binding.root.clearAnimation()
     }
 }
