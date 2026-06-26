@@ -89,6 +89,7 @@ dependencies {
 
     //Image Loading
     implementation(libs.coil)
+    implementation(libs.coil.network.okhttp)
 
     //Gson
     implementation(libs.gson)
