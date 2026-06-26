@@ -37,7 +37,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
             versionTxt.text = "${getString(version)} : $VERSION_NAME"
 
             doWorkOnLifecycleScope {
-                2500.delay()
+                3500.delay()
                 viewModel.readData.observe(viewLifecycleOwner) {
                     findNavController().popBackStack(splashFragment, true)
                     findNavController().navigate(
