@@ -18,11 +18,12 @@
     <!--Bottom menu-->
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/mainBottomAppbar"
+        style="@style/Widget.MaterialComponents.BottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/white"
-        android:visibility="gone"
+        app:backgroundTint="@color/white"
+        app:fabAlignmentMode="center"
         app:fabAnimationMode="scale"
         app:fabCradleMargin="@dimen/_10mdp"
         app:fabCradleRoundedCornerRadius="@dimen/_15mdp"
@@ -32,7 +33,8 @@
             android:id="@+id/mainBottomNav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_15mdp"
+            app:backgroundTint="@android:color/transparent"
+            app:elevation="0dp"
             app:itemIconTint="@color/item_bottom_nav_tint"
             app:itemTextColor="@color/item_bottom_nav_tint"
             app:labelVisibilityMode="selected"
@@ -47,9 +49,9 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_restaurant"
-        android:visibility="gone"
         app:backgroundTint="@color/jacarta"
         app:layout_anchor="@id/mainBottomAppbar"
+        app:shapeAppearanceOverlay="@style/CircleShapeAppearance"
         app:tint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -15,6 +15,9 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.apply {
+            mainBottomNav.itemActiveIndicatorColor = null
+        }
     }
 
     override fun onDestroy() {
