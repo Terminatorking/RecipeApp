@@ -19,12 +19,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import coil3.load
+import coil3.request.CachePolicy.ENABLED
+import coil3.request.crossfade
+import coil3.request.error
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar.make
 import ghazimoradi.soheil.recipeapp.utils.MyApp.Companion.myApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
+import ghazimoradi.soheil.recipeapp.R.drawable.ic_placeholder
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(REGISTER_USER_INFO)
 
@@ -97,3 +102,12 @@ fun Fragment.doWorkOnLifecycleScope(
 }
 
 suspend fun Int.delay() = delay(this.milliseconds)
+
+fun ImageView.loadImage(url: String) {
+    load(url) {
+        crossfade(true)
+        crossfade(800)
+        memoryCachePolicy(ENABLED)
+        error(ic_placeholder)
+    }
+}
