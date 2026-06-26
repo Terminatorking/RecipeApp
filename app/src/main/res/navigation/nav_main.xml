@@ -39,4 +39,74 @@
         android:label="fragment_recipe"
         tools:layout="@layout/fragment_recipe" />
 
+    <action
+        android:id="@+id/actionToSearch"
+        app:destination="@id/searchFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="ghazimoradi.soheil.recipeapp.ui.fragments.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+
+    <action
+        android:id="@+id/actionToFavorite"
+        app:destination="@id/favoriteFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="ghazimoradi.soheil.recipeapp.ui.fragments.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
+
+    <action
+        android:id="@+id/actionToLucky"
+        app:destination="@id/luckyFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <fragment
+        android:id="@+id/luckyFragment"
+        android:name="ghazimoradi.soheil.recipeapp.ui.fragments.lucky.LuckyFragment"
+        android:label="fragment_lucky"
+        tools:layout="@layout/fragment_lucky" />
+
+    <action
+        android:id="@+id/actionToDetail"
+        app:destination="@id/detailFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="ghazimoradi.soheil.recipeapp.ui.fragments.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" />
+
+    <action
+        android:id="@+id/actionToWebView"
+        app:destination="@id/webViewFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="ghazimoradi.soheil.recipeapp.ui.fragments.webview.WebViewFragment"
+        android:label="fragment_webview"
+        tools:layout="@layout/fragment_web_view" />
+
 </navigation>
