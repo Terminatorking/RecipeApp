@@ -22,6 +22,7 @@ import ghazimoradi.soheil.recipeapp.utils.doWorkOnLifecycleScope
 import ghazimoradi.soheil.recipeapp.utils.network.NetworkRequest.Error
 import ghazimoradi.soheil.recipeapp.utils.network.NetworkRequest.Loading
 import ghazimoradi.soheil.recipeapp.utils.network.NetworkRequest.Success
+import ghazimoradi.soheil.recipeapp.utils.onceObserve
 import ghazimoradi.soheil.recipeapp.utils.setupRecyclerview
 import ghazimoradi.soheil.recipeapp.utils.showSnackBar
 import ghazimoradi.soheil.recipeapp.viewmodels.RecipeViewModel
@@ -60,7 +61,15 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
 
     private fun callPopularData() {
         initPopularRecycler()
-        recipeViewModel.callPopularApi(recipeViewModel.popularQueries())
+        recipeViewModel.readPopularFromDb.onceObserve(viewLifecycleOwner) { database ->
+            if (database.isNotEmpty() && !isNetworkAvailable) {
+                database[0].response.results?.let { results ->
+                    fillPopularAdapter(results.toMutableList())
+                }
+            } else {
+                recipeViewModel.callPopularApi(recipeViewModel.popularQueries())
+            }
+        }
     }
 
     private fun callRecentData() {
