@@ -103,6 +103,8 @@ fun Fragment.doWorkOnLifecycleScope(
 
 suspend fun Int.delay() = delay(this.milliseconds)
 
+suspend fun Long.delay() = delay(this.milliseconds)
+
 fun ImageView.loadImage(url: String) {
     load(url) {
         crossfade(true)
