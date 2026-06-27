@@ -11,7 +11,7 @@ import ghazimoradi.soheil.recipeapp.data.models.register.RegisterStoredModel
 import ghazimoradi.soheil.recipeapp.data.source.RemoteDataSource
 import ghazimoradi.soheil.recipeapp.utils.REGISTER_HASH
 import ghazimoradi.soheil.recipeapp.utils.REGISTER_USERNAME
-import ghazimoradi.soheil.recipeapp.utils.dataStore
+import ghazimoradi.soheil.recipeapp.utils.registerUserInfoDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -30,13 +30,13 @@ class RegisterRepository @Inject constructor(
     }
 
     suspend fun saveRegisterData(username: String, hash: String) {
-        context.dataStore.edit {
+        context.registerUserInfoDataStore.edit {
             it[StoredKeys.username] = username
             it[StoredKeys.hash] = hash
         }
     }
 
-    val readRegisterData: Flow<RegisterStoredModel> = context.dataStore.data
+    val readRegisterData: Flow<RegisterStoredModel> = context.registerUserInfoDataStore.data
         .catch { e ->
             if (e is IOException) {
                 emit(emptyPreferences())

@@ -31,7 +31,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(REGISTER_USER_INFO)
+val Context.registerUserInfoDataStore: DataStore<Preferences> by preferencesDataStore(REGISTER_USER_INFO)
+
+val Context.menuDataStore: DataStore<Preferences> by preferencesDataStore(MENU_DATASTORE)
 
 fun View.showSnackBar(message: String, duration: Int = LENGTH_SHORT) =
     make(this, message, duration).show()
