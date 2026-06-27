@@ -28,8 +28,9 @@ class RecipeViewModel @Inject constructor(
     val popularData = MutableLiveData<NetworkRequest<ResponseRecipes>>()
     val recentData = MutableLiveData<NetworkRequest<ResponseRecipes>>()
 
-    val readPopularFromDb: LiveData<List<RecipeEntity>> =
-        repository.local.loadRecipes().asLiveData()
+    val readPopularFromDb: LiveData<List<RecipeEntity>> = local.loadRecipes().asLiveData()
+
+    val readRecentFromDb: LiveData<List<RecipeEntity>> = local.loadRecipes().asLiveData()
 
     private var mealType = MAIN_COURSE
     private var dietType = GLUTEN_FREE
@@ -52,24 +53,11 @@ class RecipeViewModel @Inject constructor(
 
                 //Cache
                 val cache = popularData.value?.data
-                if (cache != null) {
-                    offlinePopular(cache)
-                }
+                if (cache != null) handleCache(cache, true)
             } catch (e: Exception) {
                 popularData.value = NetworkRequest.Error(e.message.toString())
             }
         }
-    }
-
-    fun savePopular(entity: RecipeEntity) {
-        viewModelScope.launch(IO) {
-            local.saveRecipes(entity)
-        }
-    }
-
-    private fun offlinePopular(response: ResponseRecipes) {
-        val entity = RecipeEntity(0, response)
-        savePopular(entity)
     }
 
     fun recentQueries(): HashMap<String, String> {
@@ -88,6 +76,10 @@ class RecipeViewModel @Inject constructor(
                 recentData.value = NetworkRequest.Loading()
                 val response = remote.getRecipes(queries)
                 recentData.value = recentNetworkResponse(response)
+
+                //Cache
+                val cache = recentData.value?.data
+                if (cache != null) handleCache(cache, false)
             } catch (e: Exception) {
                 recentData.value = NetworkRequest.Error(e.message.toString())
             }
@@ -105,5 +97,16 @@ class RecipeViewModel @Inject constructor(
             response.isSuccessful -> NetworkRequest.Success(response.body()!!)
             else -> NetworkRequest.Error(response.message())
         }
+    }
+
+    private fun save(entity: RecipeEntity) {
+        viewModelScope.launch(IO) {
+            local.saveRecipes(entity)
+        }
+    }
+
+    private fun handleCache(response: ResponseRecipes, isPopular: Boolean) {
+        val entity = RecipeEntity(if (isPopular) 0 else 1, response)
+        save(entity)
     }
 }

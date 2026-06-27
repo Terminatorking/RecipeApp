@@ -61,9 +61,10 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
 
     private fun callPopularData() {
         initPopularRecycler()
-        recipeViewModel.readPopularFromDb.onceObserve(viewLifecycleOwner) { database ->
-            if (database.isNotEmpty() && !isNetworkAvailable) {
-                database[0].response.results?.let { results ->
+        recipeViewModel.readPopularFromDb.onceObserve(viewLifecycleOwner) { populars ->
+            if (populars.isNotEmpty() && !isNetworkAvailable) {
+                populars[0].response.results?.let { results ->
+                    setupLoading(false,binding.popularList)
                     fillPopularAdapter(results.toMutableList())
                 }
             } else {
@@ -74,7 +75,16 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
 
     private fun callRecentData() {
         initRecentRecycler()
-        recipeViewModel.callRecentApi(recipeViewModel.recentQueries())
+        recipeViewModel.readRecentFromDb.onceObserve(viewLifecycleOwner) { recents ->
+            if (recents.isNotEmpty() && recents.size > 1 && !isNetworkAvailable) {
+                recents[1].response.results?.let { results ->
+                    setupLoading(false,binding.recipesList)
+                    recentAdapter.setData(results)
+                }
+            } else {
+                recipeViewModel.callRecentApi(recipeViewModel.recentQueries())
+            }
+        }
     }
 
     fun showUsername() {
