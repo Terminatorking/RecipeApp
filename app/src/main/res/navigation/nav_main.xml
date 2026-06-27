@@ -109,4 +109,20 @@
         android:label="fragment_webview"
         tools:layout="@layout/fragment_web_view" />
 
+    <action
+        android:id="@+id/actionToMenu"
+        app:destination="@id/menuFragment" />
+
+    <dialog
+        android:id="@+id/menuFragment"
+        android:name="ghazimoradi.soheil.recipeapp.ui.fragments.menu.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu">
+        <action
+            android:id="@+id/actionMenuToRecipe"
+            app:destination="@id/recipeFragment"
+            app:popUpTo="@id/recipeFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
+
 </navigation>
