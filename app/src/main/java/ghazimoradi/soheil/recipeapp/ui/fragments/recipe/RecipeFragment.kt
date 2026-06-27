@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.todkars.shimmer.ShimmerRecyclerView
@@ -14,6 +16,7 @@ import ghazimoradi.soheil.recipeapp.data.models.recipe.ResponseRecipes.Result
 import ghazimoradi.soheil.recipeapp.databinding.FragmentRecipeBinding
 import ghazimoradi.soheil.recipeapp.ui.adapters.PopularAdapter
 import ghazimoradi.soheil.recipeapp.ui.adapters.RecentAdapter
+import ghazimoradi.soheil.recipeapp.ui.fragments.recipe.RecipeFragmentDirections.actionToDetail
 import ghazimoradi.soheil.recipeapp.utils.DELAY_TIME
 import ghazimoradi.soheil.recipeapp.utils.REPEAT_TIME
 import ghazimoradi.soheil.recipeapp.utils.base.BaseFragment
@@ -41,6 +44,8 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
     private val registerViewModel: RegisterViewModel by viewModels()
     private val recipeViewModel: RecipeViewModel by viewModels()
 
+    private val args: RecipeFragmentArgs by navArgs()
+
     @Inject
     lateinit var popularAdapter: PopularAdapter
 
@@ -62,13 +67,13 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
     private fun callPopularData() {
         initPopularRecycler()
         recipeViewModel.readPopularFromDb.onceObserve(viewLifecycleOwner) { populars ->
-            if (populars.isNotEmpty() && !isNetworkAvailable) {
-                populars[0].response.results?.let { results ->
-                    setupLoading(false,binding.popularList)
-                    fillPopularAdapter(results.toMutableList())
+            if (populars.isNotEmpty()) {
+                populars[0].response.results?.let { result ->
+                    setupLoading(false, binding.popularList)
+                    fillPopularAdapter(result.toMutableList())
                 }
             } else {
-                recipeViewModel.callPopularApi(recipeViewModel.popularQueries())
+                recipeViewModel.callPopularApi()
             }
         }
     }
@@ -76,13 +81,13 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
     private fun callRecentData() {
         initRecentRecycler()
         recipeViewModel.readRecentFromDb.onceObserve(viewLifecycleOwner) { recents ->
-            if (recents.isNotEmpty() && recents.size > 1 && !isNetworkAvailable) {
+            if (recents.isNotEmpty() && recents.size > 1 && !args.isUpdateData) {
                 recents[1].response.results?.let { results ->
-                    setupLoading(false,binding.recipesList)
+                    setupLoading(false, binding.recipesList)
                     recentAdapter.setData(results)
                 }
             } else {
-                recipeViewModel.callRecentApi(recipeViewModel.recentQueries())
+                recipeViewModel.callRecentApi()
             }
         }
     }
@@ -207,5 +212,7 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
         }
     }
 
-    private fun gotoDetailPage(id: Int) {}
+    private fun gotoDetailPage(id: Int) {
+        findNavController().navigate(actionToDetail(id))
+    }
 }

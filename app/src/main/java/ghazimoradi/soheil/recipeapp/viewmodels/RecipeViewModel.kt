@@ -8,18 +8,21 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ghazimoradi.soheil.recipeapp.data.models.database.entities.RecipeEntity
 import ghazimoradi.soheil.recipeapp.data.models.recipe.ResponseRecipes
+import ghazimoradi.soheil.recipeapp.data.repositories.MenuRepository
 import ghazimoradi.soheil.recipeapp.data.repositories.RecipeRepository
 import ghazimoradi.soheil.recipeapp.utils.*
 import ghazimoradi.soheil.recipeapp.utils.network.NetworkRequest
 import ghazimoradi.soheil.recipeapp.utils.network.NetworkResponse
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
-    repository: RecipeRepository
+    repository: RecipeRepository,
+    private val menuRepository: MenuRepository
 ) : ViewModel() {
 
     val remote = repository.remote
@@ -32,10 +35,7 @@ class RecipeViewModel @Inject constructor(
 
     val readRecentFromDb: LiveData<List<RecipeEntity>> = local.loadRecipes().asLiveData()
 
-    private var mealType = MAIN_COURSE
-    private var dietType = GLUTEN_FREE
-
-    fun popularQueries(): HashMap<String, String> {
+    private fun popularQueries(): HashMap<String, String> {
         val queries: HashMap<String, String> = HashMap()
         queries[API_KEY] = MY_API_KEY
         queries[SORT] = POPULARITY
@@ -44,11 +44,11 @@ class RecipeViewModel @Inject constructor(
         return queries
     }
 
-    fun callPopularApi(queries: Map<String, String>) {
+    fun callPopularApi() {
         viewModelScope.launch {
             try {
                 popularData.value = NetworkRequest.Loading()
-                val response = remote.getRecipes(queries)
+                val response = remote.getRecipes(popularQueries())
                 popularData.value = NetworkResponse(response).generalNetworkResponse()
 
                 //Cache
@@ -60,21 +60,22 @@ class RecipeViewModel @Inject constructor(
         }
     }
 
-    fun recentQueries(): HashMap<String, String> {
+    private suspend fun recentQueries(): HashMap<String, String> {
+        val menuData = menuRepository.readMenuData.first()
         val queries: HashMap<String, String> = HashMap()
         queries[API_KEY] = MY_API_KEY
-        queries[TYPE] = mealType
-        queries[DIET] = dietType
+        queries[TYPE] = menuData.meal
+        queries[DIET] = menuData.diet
         queries[NUMBER] = FULL_COUNT.toString()
         queries[ADD_RECIPE_INFORMATION] = TRUE
         return queries
     }
 
-    fun callRecentApi(queries: Map<String, String>) {
+    fun callRecentApi() {
         viewModelScope.launch {
             try {
                 recentData.value = NetworkRequest.Loading()
-                val response = remote.getRecipes(queries)
+                val response = remote.getRecipes(recentQueries())
                 recentData.value = recentNetworkResponse(response)
 
                 //Cache
