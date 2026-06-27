@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors.fromApplication
+import ghazimoradi.soheil.recipeapp.R.id.actionToMenu
 import ghazimoradi.soheil.recipeapp.R.id.detailFragment
 import ghazimoradi.soheil.recipeapp.R.id.navHost
 import ghazimoradi.soheil.recipeapp.R.id.registerFragment
@@ -53,6 +54,11 @@ class MainActivity : AppCompatActivity() {
                     else -> visibilityBottomMenu(true)
                 }
             }
+
+            mainFabMenu.setOnClickListener {
+               navController.navigate(actionToMenu)
+            }
+
         }
     }
 
