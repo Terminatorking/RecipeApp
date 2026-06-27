@@ -37,7 +37,12 @@
         android:id="@+id/recipeFragment"
         android:name="ghazimoradi.soheil.recipeapp.ui.fragments.recipe.RecipeFragment"
         android:label="fragment_recipe"
-        tools:layout="@layout/fragment_recipe" />
+        tools:layout="@layout/fragment_recipe">
+        <argument
+            android:name="isUpdateData"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
 
     <action
         android:id="@+id/actionToSearch"
