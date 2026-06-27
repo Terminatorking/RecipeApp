@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable.createFromAttributes
 import com.google.android.material.chip.ChipGroup
@@ -17,16 +15,17 @@ import ghazimoradi.soheil.recipeapp.R.color.white
 import ghazimoradi.soheil.recipeapp.R.style.DarkChip
 import ghazimoradi.soheil.recipeapp.databinding.FragmentMenuBinding
 import ghazimoradi.soheil.recipeapp.ui.fragments.menu.MenuFragmentDirections.actionMenuToRecipe
+import ghazimoradi.soheil.recipeapp.utils.base.BaseBottomSheetDialogFragment
 import ghazimoradi.soheil.recipeapp.utils.getColorResource
 import ghazimoradi.soheil.recipeapp.utils.onceObserve
 import ghazimoradi.soheil.recipeapp.viewmodels.MenuViewModel
 
 @SuppressLint("SetTextI18n")
 @AndroidEntryPoint
-class MenuFragment : BottomSheetDialogFragment() {
+class MenuFragment : BaseBottomSheetDialogFragment<FragmentMenuBinding>() {
 
-    private var _binding: FragmentMenuBinding? = null
-    private val binding get() = _binding!!
+    override val bindingInflater: (inflater: LayoutInflater) -> FragmentMenuBinding
+        get() = FragmentMenuBinding::inflate
 
     private lateinit var viewModel: MenuViewModel
 
@@ -39,13 +38,6 @@ class MenuFragment : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[MenuViewModel::class.java]
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMenuBinding.inflate(inflater)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -112,10 +104,5 @@ class MenuFragment : BottomSheetDialogFragment() {
         if (id != 0) {
             view.findViewById<Chip>(id).isChecked = true
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }
