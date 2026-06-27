@@ -1,10 +1,14 @@
 package ghazimoradi.soheil.recipeapp.ui.fragments.detail
 
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import dagger.hilt.android.AndroidEntryPoint
+import ghazimoradi.soheil.recipeapp.databinding.FragmentDetailBinding
+import ghazimoradi.soheil.recipeapp.utils.base.BaseFragment
 
 @AndroidEntryPoint
-class DetailFragment : Fragment() {
+class DetailFragment : BaseFragment<FragmentDetailBinding>() {
 
+    override val bindingInflater: (inflater: LayoutInflater) -> FragmentDetailBinding
+        get() = FragmentDetailBinding::inflate
 
 }
