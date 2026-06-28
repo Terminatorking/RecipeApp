@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import ghazimoradi.soheil.recipeapp.utils.doWorkOnLifecycleScope
 import ghazimoradi.soheil.recipeapp.viewmodels.CheckInternetViewModel
-import kotlinx.coroutines.launch
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
@@ -33,7 +32,11 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch {
+        checkInternet()
+    }
+
+    protected fun checkInternet() {
+        doWorkOnLifecycleScope {
             checkInternetViewModel.isNetworkAvailable.collect {
                 isNetworkAvailable = it
             }
