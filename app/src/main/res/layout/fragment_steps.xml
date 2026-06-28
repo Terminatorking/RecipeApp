@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whiteSmoke"
+    android:paddingBottom="@dimen/_15mdp"
     tools:context=".ui.fragments.steps.StepsFragment">
 
     <!--Steps-->
