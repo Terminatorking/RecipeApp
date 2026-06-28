@@ -2,8 +2,11 @@ package ghazimoradi.soheil.recipeapp.ui.activity
 
 import android.content.Context
 import android.os.Bundle
+import android.graphics.Color.parseColor
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -42,6 +45,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
+            v.setBackgroundColor(parseColor("#1D1B33"))
+            insets
+        }
+
+        setOnApplyWindowInsetsListener(binding.mainBottomAppbar) { v, insets ->
+            v.setPadding(0, 0, 0, 10)
+            insets
+        }
+
         setupNav(navHost)
         binding.apply {
             mainBottomNav.itemActiveIndicatorColor = null
