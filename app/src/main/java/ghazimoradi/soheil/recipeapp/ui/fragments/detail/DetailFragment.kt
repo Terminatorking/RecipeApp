@@ -325,7 +325,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
     }
 
     private fun initInternetLayout(isConnected: Boolean) {
-        binding.internetLay.isVisible = isConnected.not()
+        binding.apply {
+            internetLay.isVisible = isConnected.not()
+            contentLay.isVisible = isConnected
+        }
     }
 
     private fun saveFavorite(data: ResponseDetail) {
