@@ -15,6 +15,7 @@ import ghazimoradi.soheil.recipeapp.R.id.detailFragment
 import ghazimoradi.soheil.recipeapp.R.id.navHost
 import ghazimoradi.soheil.recipeapp.R.id.registerFragment
 import ghazimoradi.soheil.recipeapp.R.id.splashFragment
+import ghazimoradi.soheil.recipeapp.R.id.stepsFragment
 import ghazimoradi.soheil.recipeapp.R.id.webViewFragment
 import ghazimoradi.soheil.recipeapp.databinding.ActivityMainBinding
 import ghazimoradi.soheil.recipeapp.di.font.ViewPumpEntryPoint
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
                     registerFragment -> visibilityBottomMenu(false)
                     detailFragment -> visibilityBottomMenu(false)
                     webViewFragment -> visibilityBottomMenu(false)
+                    stepsFragment -> visibilityBottomMenu(false)
                     else -> visibilityBottomMenu(true)
                 }
             }
