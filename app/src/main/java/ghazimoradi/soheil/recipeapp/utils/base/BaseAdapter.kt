@@ -22,6 +22,8 @@ abstract class BaseAdapter<B : ViewBinding, M> : Adapter<BaseAdapter<B, M>.BaseV
 
     private var items: List<M> = emptyList()
 
+    protected var adapterPosition: Int = 0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         _context = parent.context
         _binding = bindingInflater.invoke(LayoutInflater.from(context), parent, false)
@@ -40,6 +42,7 @@ abstract class BaseAdapter<B : ViewBinding, M> : Adapter<BaseAdapter<B, M>.BaseV
 
     inner class BaseViewHolder(binding: B) : ViewHolder(binding.root) {
         fun bind(item: M) {
+            this@BaseAdapter.adapterPosition = adapterPosition
             bindData(item)
         }
     }
