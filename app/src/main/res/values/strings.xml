@@ -33,4 +33,5 @@
     <string name="source">Source</string>
     <string name="check_your_connection">Check your connection</string>
     <string name="add_new_recipe_to_favorite">Add new recipe to favorite</string>
+    <string name="something_went_wrong">Something went wrong!</string>
 </resources>

@@ -1,16 +1,19 @@
 package ghazimoradi.soheil.recipeapp.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ghazimoradi.soheil.recipeapp.R.string.something_went_wrong
 import ghazimoradi.soheil.recipeapp.data.models.database.entities.RecipeEntity
 import ghazimoradi.soheil.recipeapp.data.models.recipe.ResponseRecipes
 import ghazimoradi.soheil.recipeapp.data.repositories.MenuRepository
 import ghazimoradi.soheil.recipeapp.data.repositories.RecipeRepository
 import ghazimoradi.soheil.recipeapp.utils.*
+import ghazimoradi.soheil.recipeapp.utils.getStringResource
 import ghazimoradi.soheil.recipeapp.utils.network.NetworkRequest
 import ghazimoradi.soheil.recipeapp.utils.network.NetworkResponse
 import kotlinx.coroutines.Dispatchers.IO
@@ -25,8 +28,8 @@ class RecipeViewModel @Inject constructor(
     private val menuRepository: MenuRepository
 ) : ViewModel() {
 
-    val remote = repository.remote
-    val local = repository.local
+    private val remote = repository.remote
+    private val local = repository.local
 
     val popularData = MutableLiveData<NetworkRequest<ResponseRecipes>>()
     val recentData = MutableLiveData<NetworkRequest<ResponseRecipes>>()
@@ -55,7 +58,8 @@ class RecipeViewModel @Inject constructor(
                 val cache = popularData.value?.data
                 if (cache != null) handleCache(cache, true)
             } catch (e: Exception) {
-                popularData.value = NetworkRequest.Error(e.message.toString())
+                Log.e("callPopularApi", e.message, e)
+                popularData.value = NetworkRequest.Error(getStringResource(something_went_wrong))
             }
         }
     }
@@ -82,7 +86,8 @@ class RecipeViewModel @Inject constructor(
                 val cache = recentData.value?.data
                 if (cache != null) handleCache(cache, false)
             } catch (e: Exception) {
-                recentData.value = NetworkRequest.Error(e.message.toString())
+                Log.e("callRecentApi", e.message, e)
+                recentData.value = NetworkRequest.Error(getStringResource(something_went_wrong))
             }
         }
     }

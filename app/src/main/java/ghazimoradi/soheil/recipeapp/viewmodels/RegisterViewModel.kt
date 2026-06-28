@@ -1,12 +1,15 @@
 package ghazimoradi.soheil.recipeapp.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ghazimoradi.soheil.recipeapp.R.string.something_went_wrong
 import ghazimoradi.soheil.recipeapp.data.models.register.BodyRegister
 import ghazimoradi.soheil.recipeapp.data.models.register.ResponseRegister
 import ghazimoradi.soheil.recipeapp.data.repositories.RegisterRepository
+import ghazimoradi.soheil.recipeapp.utils.getStringResource
 import ghazimoradi.soheil.recipeapp.utils.network.NetworkRequest
 import ghazimoradi.soheil.recipeapp.utils.network.NetworkResponse
 import kotlinx.coroutines.launch
@@ -28,7 +31,8 @@ class RegisterViewModel @Inject constructor(
                 val response = repository.postRegister(apiKey, body)
                 registerData.value = NetworkResponse(response).generalNetworkResponse()
             } catch (e: Exception) {
-                registerData.value = NetworkRequest.Error(e.message.toString())
+                Log.e("callRegisterApi", e.message, e)
+                registerData.value = NetworkRequest.Error(getStringResource(something_went_wrong))
             }
         }
     }

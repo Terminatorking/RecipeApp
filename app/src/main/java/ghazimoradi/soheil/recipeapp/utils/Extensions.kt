@@ -6,7 +6,10 @@ import android.util.Patterns
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.content.ContextCompat.getString
 import androidx.core.view.isVisible
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -31,14 +34,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
-val Context.registerUserInfoDataStore: DataStore<Preferences> by preferencesDataStore(REGISTER_USER_INFO)
+val Context.registerUserInfoDataStore: DataStore<Preferences> by preferencesDataStore(
+    REGISTER_USER_INFO
+)
 
 val Context.menuDataStore: DataStore<Preferences> by preferencesDataStore(MENU_DATASTORE)
 
 fun View.showSnackBar(message: String, duration: Int = LENGTH_SHORT) =
     make(this, message, duration).show()
 
-fun TextView.setDynamicallyColor(color: Int) {
+fun TextView.setDynamicallyColor(@ColorRes color: Int) {
     //Start - Left = 0 || Top = 1 || End - Right = 2 || Bottom = 3
     this.compoundDrawables[1].setTint(getColorResource(color))
     this.setTextColor(getColorResource(color))
@@ -85,11 +90,13 @@ fun View.isVisible(isShownLoading: Boolean, container: View) {
     }
 }
 
-fun ImageView.setTint(color: Int) {
+fun ImageView.setTint(@ColorRes color: Int) {
     imageTintList = ColorStateList.valueOf(getColorResource(color))
 }
 
-fun getColorResource(color: Int) = getColor(myApplicationContext, color)
+fun getColorResource(@ColorRes color: Int) = getColor(myApplicationContext, color)
+
+fun getStringResource(@StringRes string: Int) = getString(myApplicationContext, string)
 
 fun validateEmail(email: String) = Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
